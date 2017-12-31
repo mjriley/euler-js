@@ -1,0 +1,26 @@
+{
+  "name": "euler-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "one.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mjriley/euler-js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mjriley/euler-js/issues"
+  },
+  "homepage": "https://github.com/mjriley/euler-js#readme",
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "mocha": "^4.1.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2"
+  }
+}
