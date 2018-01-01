@@ -46,30 +46,29 @@ function getHighestXDigitPalindromeProduct(numDigits) {
     let highestFoundMultiplier = lowerBound;
     let highestPalindrome = 0;
 
-    // function getHighestMultiplierAndPalindrome(leftMultiplier) {
-    //     for (
-    //         let multiplier = upperBound - 1;
-    //         multiplier >= highestFoundMultiplier;
-    //         --multiplier
-    //     ) {
-    //         let product = leftMultiplier * multiplier;
-    //         if (isPalindrome(product)) {
-    //             highestFoundMultiplier = rightMultiplier;
+    function getHighestPalindromeAndMultiplier(leftMultiplier) {
+        // stopping on the highest previously found multiplier is an optimization -- since we found that multiplier on a higher left multiplier,
+        // there would be no way for a lower right multiplier to be greater than the multiplier already found
+        for (
+            let multiplier = upperBound - 1;
+            multiplier >= highestFoundMultiplier;
+            --multiplier
+        ) {
+            let product = leftMultiplier * multiplier;
+            if (isPalindrome(product)) {
+                // optimization -- if a palindrome was found for X * Y, there is no sense in trying to find a larger palindrome for X * (Y - Z),
+                // because it will always be smaller
+                return {
+                    palindrome: product,
+                    multiplier
+                };
+            }
+        }
 
-    //             return {
-    //                 multiplier,
-    //                 palindrome: product
-    //             };
-    //         }
-    //             highestPalindrome = product;
-    //             highestFoundMultiplier = rightMultiplier; // save the multiplier for the loop optimizations
-
-    //             break; // optimization -- if a palindrome was found for X * Y, there is no sense in trying to find a larger palindrome for X * (Y - Z),
-    //             // because it will always be smaller
-    //         }
-    //     }
-
-    // }
+        return {
+            palindrome: undefined
+        };
+    }
 
     // stopping at the highest previously found multiplier on the outer loop is an optimization -- since both multiplier are 3 digits,
     // if we found a product for X * Y, we want to avoid checking Y * X. Since we iterate downwards, if a product was found for X * Y, X will be the highest multiplier for Y,
@@ -79,21 +78,17 @@ function getHighestXDigitPalindromeProduct(numDigits) {
         leftMultiplier >= highestFoundMultiplier;
         --leftMultiplier
     ) {
-        // stopping on the highest previously found multiplier is an optimization -- since we found that multiplier on a higher left multiplier,
-        // there would be no way for a lower right multiplier to be greater than the multiplier already found
-        for (
-            let rightMultiplier = upperBound - 1;
-            rightMultiplier >= highestFoundMultiplier;
-            --rightMultiplier
-        ) {
-            let product = leftMultiplier * rightMultiplier;
-            if (isPalindrome(product) && product > highestPalindrome) {
-                highestPalindrome = product;
-                highestFoundMultiplier = rightMultiplier; // save the multiplier for the loop optimizations
+        let {
+            palindrome,
+            multiplier: rightMultiplier
+        } = getHighestPalindromeAndMultiplier(leftMultiplier);
 
-                break; // optimization -- if a palindrome was found for X * Y, there is no sense in trying to find a larger palindrome for X * (Y - Z),
-                // because it will always be smaller
+        if (typeof palindrome !== 'undefined') {
+            if (palindrome > highestPalindrome) {
+                highestPalindrome = palindrome;
             }
+
+            highestFoundMultiplier = rightMultiplier;
         }
     }
 
