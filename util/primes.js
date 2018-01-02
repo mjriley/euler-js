@@ -15,6 +15,16 @@ function isPrime(candidate) {
     return true;
 }
 
+function getNextPrime(base) {
+    let candidate = base + 1;
+    while (!isPrime(candidate)) {
+        candidate++;
+    }
+
+    return candidate;
+}
+
 module.exports = {
-    isPrime
+    isPrime,
+    getNextPrime
 };
