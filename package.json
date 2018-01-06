@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/mjriley/euler-js#readme",
   "dependencies": {
+    "big-integer": "^1.6.26",
     "lodash": "^4.17.4",
     "mocha": "^4.1.0",
     "wu": "^2.1.0"
