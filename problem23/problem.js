@@ -31,6 +31,11 @@ function isAbundant(number) {
     return sumOfProperDivisors(number) > number;
 }
 
+// uses the pre-generated list of abundant numbers to figure out if the number is abundant
+function cachedIsAbundant(number) {
+    return _.sortedIndexOf(abundantNumbers, number) !== -1;
+}
+
 let abundantNumbers = getAbundantNumbersBelow(28123);
 
 function getNonAbundantSumNumbersBelow(number) {
@@ -39,26 +44,19 @@ function getNonAbundantSumNumbersBelow(number) {
 }
 
 function isSumOfAbundantNumbers(number) {
+    const ceiling = number / 2;
+
     for (
         let addendIndex = 0;
         addendIndex < abundantNumbers.length;
         ++addendIndex
     ) {
-        for (
-            let augendIndex = addendIndex;
-            augendIndex < abundantNumbers.length;
-            ++augendIndex
-        ) {
-            const sum =
-                abundantNumbers[addendIndex] + abundantNumbers[augendIndex];
-            if (sum === number) {
-                return true;
-            } else if (sum > number) {
-                break;
-            }
+        const remaining = number - abundantNumbers[addendIndex];
+        if (cachedIsAbundant(remaining)) {
+            return true;
         }
 
-        if (abundantNumbers[addendIndex] > number / 2) {
+        if (abundantNumbers[addendIndex] > ceiling) {
             break;
         }
     }
